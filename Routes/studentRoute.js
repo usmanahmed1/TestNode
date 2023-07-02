@@ -37,17 +37,27 @@ router.get("/GetStudent", async (req, res) => {
 
 router.patch("/UpdateStudent", async (req, res) => {
     var Id = req.body.Id;
-    var student = await Student.findByIdAndUpdate(Id, {
-        $set: {
-            StudentName: req.body.Name,
-            Age: req.body.Age,
-            MobileNo: req.body.Mobile
-        }
+    var student = await Student.findByIdAndUpdate(Id, req.body , {
+        new : true
     });
 
+    res.json({
+        Status : "Updated"
+    });
+});
+
+router.get("/GetStudents", async (req, res)=>{
+    const students = await Student.find(req.body);
+    res.json(students);
+});
+
+router.delete("/DeleteAllStudents", async (req, res)=>{
+    const student = await Student.deleteMany({});
     res.json(student);
 });
 
-
+router.delete("/DeleteStudent", async (req, res)=>{
+    const student = await Student.findByIdAndDelete
+});
 
 module.exports = router;
